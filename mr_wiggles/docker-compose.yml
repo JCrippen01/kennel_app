@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  backend:
+    build: ./backend   # Adjust the path if your Django code is placed in a folder named 'backend'
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_NAME=mydb
+      - DATABASE_USER=myuser
+      - DATABASE_PASSWORD=mypassword
+      - DATABASE_HOST=db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:5000"
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
+
