@@ -1,5 +1,5 @@
 # Dockerfile for React (Vite)
-FROM node:16
+FROM node:18-slim
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install

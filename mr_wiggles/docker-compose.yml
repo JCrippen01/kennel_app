@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   backend:
-    build: ./backend   # Adjust the path if your Django code is placed in a folder named 'backend'
+    build: ./kennel_app   # Adjust the path if your Django code is placed in a folder named 'backend'
     ports:
       - "8000:8000"
     depends_on:
