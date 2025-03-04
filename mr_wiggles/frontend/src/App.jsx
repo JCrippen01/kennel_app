@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div>
-      <h1>{message || "Loading..."}</h1>
+      <h1>{message || "Hello World"}</h1>
     </div>
   );
 }
