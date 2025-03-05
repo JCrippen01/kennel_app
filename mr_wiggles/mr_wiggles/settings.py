@@ -10,11 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# Initialize environment variables
+env = environ.Env(DEBUG=(bool, False))
+# Read the .env file
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -37,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "kennel_app",
 ]
 
 MIDDLEWARE = [
@@ -76,15 +82,16 @@ WSGI_APPLICATION = "mr_wiggles.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "mydb",
-        "USER": "myuser",
-        "PASSWORD": "mypassword",
-        "HOST": "db",  # This references the service name in docker-compose.yml
-        "PORT": "5432",
+        "NAME": os.environ.get("DATABASE_NAME", "mydb"),
+        "USER": os.environ.get("DATABASE_USER", "myuser"),
+        "PASSWORD": os.environ.get("DATABASE_PASSWORD", "mypassword"),
+        # Use the DATABASE_HOST environment variable if set, otherwise default to 'localhost'
+        "HOST": os.environ.get("DATABASE_HOST", "localhost"),
+        "PORT": os.environ.get("DATABASE_PORT", "5432"),
     }
 }
 
-
+AUTH_USER_MODEL = "kennel_app.CustomUser"
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 

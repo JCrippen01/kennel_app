@@ -1,23 +1,32 @@
-version: "3.8"
+version: '3.8'
+
 services:
   backend:
-    build: ./kennel_app   # Path to the backend Dockerfile
+    build: 
+      context: ./kennel_app
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     depends_on:
       - db
+    volumes:
+      - ./kennel_app:/app/kennel_app
+      - ./mr_wiggles:/app/mr_wiggles
     environment:
       - DATABASE_NAME=mydb
       - DATABASE_USER=myuser
       - DATABASE_PASSWORD=mypassword
       - DATABASE_HOST=db
+      - DATABASE_PORT=5432
 
   frontend:
-    build: ./frontend     # Path to the frontend Dockerfile
+    build: ./frontend
     ports:
-      - "3000:5000"       # Host port 3000 to container port 5000
+      - "3000:5000"
     depends_on:
       - backend
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:8000
 
   db:
     image: postgres:13
@@ -26,4 +35,4 @@ services:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
     ports:
-      - "5433:5432"       # Changed host port to 5433 to avoid conflicts
+      - "5433:5432"
