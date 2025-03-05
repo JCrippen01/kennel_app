@@ -1,0 +1,23 @@
+import React, { useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
+
+
+const TestComponent = () => {
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        console.log('Decoded token:', decoded);
+      } catch (error) {
+        console.error('Failed to decode token', error);
+      }
+    } else {
+      console.error('No token found');
+    }
+  }, []);
+
+  return <div>Check the console for jwtDecode output</div>;
+};
+
+export default TestComponent;
